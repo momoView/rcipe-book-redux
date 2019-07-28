@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable,Subscription } from 'rxjs';
 
 import * as fromSL from '../store/shopping-list.reducers';
+import * as fromRecipes from '../../recipes/store/recipes.reducers';
 import * as slActions from '../store/shopping-list.actions';
 import { Ingredient } from '../../shared/ingredient.model';
 
@@ -19,7 +20,7 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
   slState: Observable<fromSL.State>;
   subscription: Subscription;
 
-  constructor(private store: Store<fromSL.State>) { }
+  constructor(private store: Store<fromRecipes.FeatureState>) { }
 
   ngOnInit() {
     this.subscription = this.store.select('shoppingList').subscribe(
