@@ -19,7 +19,8 @@ export class RecipesEffects {
   addToSL$ = this.actions$.pipe(ofType(recipesActions.DO_ADD_SHOPPING_LIST), withLatestFrom(
     this.store.select('recipes')
   ),map(
-    ([action, recipesState]) => {
+    ([action, recipesState]: [recipesActions.DoAddShoppingList,
+      fromRecipes.State]) => {
       const recipes = recipesState.recipes;
       const ingredients = recipes[action!.payload].ingredients;
       return new slActions.AddIngredients(ingredients);
