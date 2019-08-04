@@ -35,11 +35,14 @@ export class RecipeEditComponent implements OnInit {
     const imagePath = this.recipeForm.get('imagePath').value;
     const description = this.recipeForm.get('description').value;
     const ingredients = this.recipeForm.get('ingredients').value;
-    const recipe = new Recipe(name, imagePath, description, ingredients);
+    const recipe = new Recipe(name, description,
+      imagePath, ingredients);
 
     if(this.editMode) {
-      this.store.dispatch(new recipesActions.UpdateRecipe({ index: this.id,
-        recipe: recipe }));
+      this.store.dispatch(new recipesActions.UpdateRecipe({
+        index: this.id,
+        recipe: recipe 
+      }));
     } else {
       this.store.dispatch(new recipesActions.AddRecipe(recipe));
     }

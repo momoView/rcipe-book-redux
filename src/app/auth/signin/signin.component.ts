@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import * as fromRecipes from '../../recipes/store/recipes.reducers';
 import * as authActions from '../store/auth.actions';
 
-
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',

@@ -42,6 +42,7 @@ export function recipesReducer(state = initialState, action: recipesActions.Reci
       return {
         ...state, recipes: [...state.recipes, action.payload]
       };
+
     case recipesActions.UPDATE_RECIPE:
       const recipes = [...state.recipes];
       const recipe = recipes[action.payload.index];
@@ -55,6 +56,7 @@ export function recipesReducer(state = initialState, action: recipesActions.Reci
       return {
         ...state, recipes: recipes
       };
+
     case recipesActions.DELETE_RECIPE:
       const recipesD=[...state.recipes];
 
@@ -63,11 +65,14 @@ export function recipesReducer(state = initialState, action: recipesActions.Reci
       return {
         ...state, recipes: recipesD
       };
+
     case recipesActions.SET_RECIPES:
       const sRecipes = [...action.payload];
+
       return {
         ...state, recipes:sRecipes
       };
+      
     default:
       return state;
   }

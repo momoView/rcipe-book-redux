@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import * as fromRecipes from '../../recipes/store/recipes.reducers';
 import * as fromAuth from '../../auth/store/auth.reducers';
 import * as authActions from '../../auth/store/auth.actions';
+import * as recipesActions from '../../recipes/store/recipes.actions';
 
 @Component({
   selector: 'app-header',
@@ -20,6 +21,14 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.authState$ = this.store.select('auth');
+  }
+
+  onSaveData(){
+    this.store.dispatch(new recipesActions.DoStoreRecipes());
+  }
+
+  onFetchData(){
+    this.store.dispatch(new recipesActions.DoGetRecipes())
   }
 
   onLogout() {
