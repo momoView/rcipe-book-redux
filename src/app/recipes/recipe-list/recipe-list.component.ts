@@ -14,8 +14,10 @@ import * as fromRecipes from '../store/recipes.reducers';
 export class RecipeListComponent implements OnInit {
   recipesState$: Observable<{recipes: Recipe[]}>;
 
-  constructor(private router: Router, private route: ActivatedRoute,
-    private store: Store<fromRecipes.FeatureState>) { }
+  constructor(
+    private router: Router, private route: ActivatedRoute,
+    private store: Store<fromRecipes.FeatureState>
+  ) {}
 
   ngOnInit() {
     this.recipesState$ = this.store.select('recipes');

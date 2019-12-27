@@ -16,19 +16,23 @@ export class RecipeDetailComponent implements OnInit {
   recipesState$: Observable<{recipes: Recipe[]}>;
   id: number;
 
-  constructor(private router: Router, private route: ActivatedRoute,
-    private store: Store<fromRecipes.FeatureState>) { }
+  constructor(
+    private router: Router, private route: ActivatedRoute,
+    private store: Store<fromRecipes.FeatureState>
+  ) {}
 
   ngOnInit() {
     this.recipesState$ = this.store.select('recipes');
     this.route.params.subscribe(
       (params: Params) => {
-        this.id = +params['id'];
+        if (params && params.id) {
+          this.id = +params.id;
+        }
       }
     );
   }
 
-  onAddToShoppingList(){
+  onAddToShoppingList() {
     this.store.dispatch(new recipesActions.DoAddShoppingList(this.id));
   }
 

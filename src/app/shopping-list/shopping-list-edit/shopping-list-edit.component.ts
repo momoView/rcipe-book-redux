@@ -1,7 +1,7 @@
-import { Component, OnInit,ViewChild,OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable,Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import * as fromSL from '../store/shopping-list.reducers';
 import * as fromRecipes from '../../recipes/store/recipes.reducers';
@@ -24,9 +24,9 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.store.select('shoppingList').subscribe(
-      (slState:fromSL.State) => {
+      (slState: fromSL.State) => {
         this.id = slState.indexUpdate;
-        this.editMode = (this.id != -1);
+        this.editMode = (this.id !== -1);
 
         if (this.editMode) {
           const ingredients = slState.ingredients;
@@ -74,7 +74,7 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscription.unsubscribe();
     this.store.dispatch(new slActions.EditIngredient(-1));
   }

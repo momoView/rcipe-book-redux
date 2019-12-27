@@ -16,23 +16,22 @@ import * as recipesActions from '../../recipes/store/recipes.actions';
 export class HeaderComponent implements OnInit {
   authState$: Observable<fromAuth.State>;
 
-  constructor(private store: Store<fromRecipes.FeatureState>,
-    private router: Router) { }
+  constructor(private store: Store<fromRecipes.FeatureState>, private router: Router) {}
 
   ngOnInit() {
     this.authState$ = this.store.select('auth');
   }
 
-  onSaveData(){
+  onSaveData() {
     this.store.dispatch(new recipesActions.DoStoreRecipes());
   }
 
-  onFetchData(){
-    this.store.dispatch(new recipesActions.DoGetRecipes())
+  onFetchData() {
+    this.store.dispatch(new recipesActions.DoGetRecipes());
   }
 
   onLogout() {
     this.store.dispatch(new authActions.Logout());
-    this.router.navigate(['/'])
+    this.router.navigate(['/']);
   }
 }
