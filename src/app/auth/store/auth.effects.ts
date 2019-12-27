@@ -9,33 +9,32 @@ import * as authActions from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
-  constructor(private actions$: Actions,
-    private router: Router) {}
+  constructor(private actions$: Actions, private router: Router) {}
 
   @Effect()
   signup$ = this.actions$.pipe(ofType(authActions.DO_SIGNUP), map(
     (authAction: authActions.DoSignup) => {
       return authAction.payload;
     }
-  ),switchMap(
+  ), switchMap(
     (actionData: { email: string, password: string }) => {
       return from(firebase.auth().createUserWithEmailAndPassword(
         actionData.email,
         actionData.password
       ));
     }
-  ),switchMap(
+  ), switchMap(
     () => {
       return from(firebase.auth().currentUser.getIdToken());
     }
-  ),mergeMap(
-    (token:string) => {
-      return[
+  ), mergeMap(
+    (token: string) => {
+      return [
         new authActions.Signup(),
         new authActions.SetToken(token)
       ];
     }
-  ),tap(
+  ), tap(
     () => {
       this.router.navigate(['/']);
     }
@@ -46,25 +45,25 @@ export class AuthEffects {
     (authAction: authActions.DoSignin) => {
       return authAction.payload;
     }
-  ),switchMap(
+  ), switchMap(
     (actionData: { email: string, password: string }) => {
       return from(firebase.auth().signInWithEmailAndPassword(
         actionData.email,
         actionData.password
       ));
     }
-  ),switchMap(
+  ), switchMap(
     () => {
       return from(firebase.auth().currentUser.getIdToken());
     }
-  ),mergeMap(
+  ), mergeMap(
     (token: string) => {
       return[
         new authActions.Signin(),
         new authActions.SetToken(token)
       ];
     }
-  ),tap(
+  ), tap(
     () => {
       this.router.navigate(['/']);
     }
@@ -75,11 +74,11 @@ export class AuthEffects {
     () => {
       return from(firebase.auth().signOut());
     }
-  ),map(
+  ), map(
     () => {
       return new authActions.Logout();
     }
-  ),tap(
+  ), tap(
     () => {
       this.router.navigate(['/signin']);
     }

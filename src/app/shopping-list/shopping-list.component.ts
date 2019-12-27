@@ -12,7 +12,7 @@ import * as slActions from './store/shopping-list.actions';
   styleUrls: ['./shopping-list.component.css']
 })
 export class ShoppingListComponent implements OnInit {
-  slState$: Observable<{ingredients:Ingredient[]}>;
+  slState$: Observable<{ingredients: Ingredient[]}>;
 
   constructor(private store: Store<fromRecipes.FeatureState>) {}
 

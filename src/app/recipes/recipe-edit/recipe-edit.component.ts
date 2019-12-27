@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import { Recipe } from '../recipe.model';
 import * as fromRecipes from '../store/recipes.reducers';
-import *as recipesActions from '../store/recipes.actions';
+import * as recipesActions from '../store/recipes.actions';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -17,17 +17,25 @@ export class RecipeEditComponent implements OnInit {
   id: number;
   editMode = false;
 
-  constructor(private route: ActivatedRoute, private router: Router,
-    private store: Store<fromRecipes.FeatureState>) { }
+  constructor(
+    private route: ActivatedRoute, private router: Router,
+    private store: Store<fromRecipes.FeatureState>
+  ) {}
 
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
-        this.id = +params['id'];
-        this.editMode = params['id'] != null;
+        if (params && params.id) {
+          this.id = +params.id;
+        }
+
+        if (params) {
+          this.editMode = !!(params.id);
+        }
+
         this.initForm();
       }
-    )
+    );
   }
 
   onSubmit() {
@@ -38,10 +46,10 @@ export class RecipeEditComponent implements OnInit {
     const recipe = new Recipe(name, description,
       imagePath, ingredients);
 
-    if(this.editMode) {
+    if (this.editMode) {
       this.store.dispatch(new recipesActions.UpdateRecipe({
         index: this.id,
-        recipe: recipe 
+        recipe
       }));
     } else {
       this.store.dispatch(new recipesActions.AddRecipe(recipe));
@@ -55,11 +63,11 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onDeleteIngredient(i: number) {
-    (<FormArray>this.recipeForm.get('ingredients')).removeAt(i);
+    (this.recipeForm.get('ingredients') as FormArray).removeAt(i);
   }
 
   onAddIngredient() {
-    (<FormArray>this.recipeForm.get('ingredients')).push(
+    (this.recipeForm.get('ingredients') as FormArray).push(
       new FormGroup({
         name: new FormControl(null, Validators.required),
         amount: new FormControl(null, [Validators.required,
@@ -72,25 +80,25 @@ export class RecipeEditComponent implements OnInit {
     let recipeName = '';
     let recipeImagePath = '';
     let recipeDescription = '';
-    let recipeIngredients = new FormArray([]);
+    const recipeIngredients = new FormArray([]);
 
-    if(this.editMode) {
+    if (this.editMode) {
       let recipe;
 
       this.store.select('recipes').subscribe(
         (recipesState) => {
-          let recipes = recipesState.recipes;
+          const recipes = recipesState.recipes;
 
           recipe = recipes[this.id];
           recipeName = recipe.name;
           recipeImagePath = recipe.imagePath;
           recipeDescription = recipe.description;
 
-          if(recipe['ingredients']) {
-            for(let ingredient of recipe.ingredients) {
+          if (recipe && recipe.ingredients) {
+            for (const ingredient of recipe.ingredients) {
               recipeIngredients.push(new FormGroup({
-                'name': new FormControl(ingredient.name, Validators.required),
-                'amount': new FormControl(ingredient.amount, [
+                name: new FormControl(ingredient.name, Validators.required),
+                amount: new FormControl(ingredient.amount, [
                   Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)
                 ])
               }));
@@ -99,12 +107,12 @@ export class RecipeEditComponent implements OnInit {
         }
       );
     }
-    
-    this.recipeForm=new FormGroup({
-      'name': new FormControl(recipeName, Validators.required),
-      'imagePath': new FormControl(recipeImagePath, Validators.required),
-      'description': new FormControl(recipeDescription, Validators.required),
-      'ingredients': recipeIngredients
+
+    this.recipeForm = new FormGroup({
+      name: new FormControl(recipeName, Validators.required),
+      imagePath: new FormControl(recipeImagePath, Validators.required),
+      description: new FormControl(recipeDescription, Validators.required),
+      ingredients: recipeIngredients
     });
   }
 }

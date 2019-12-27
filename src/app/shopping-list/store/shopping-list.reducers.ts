@@ -2,8 +2,8 @@ import { Ingredient } from '../../shared/ingredient.model';
 import * as slActions from './shopping-list.actions';
 
 export interface State {
-  ingredients: Ingredient[],
-  indexUpdate: number
+  ingredients: Ingredient[];
+  indexUpdate: number;
 }
 
 const initialState: State = {
@@ -15,17 +15,17 @@ const initialState: State = {
 };
 
 export function shoppingListReducer(state = initialState, action: slActions.SLActions) {
-  switch(action.type) {
+  switch (action.type) {
     case slActions.ADD_INGREDIENT:
       return {
-        ...state,ingredients: [...state.ingredients, action.payload]
+        ...state, ingredients: [...state.ingredients, action.payload]
       };
     case slActions.ADD_INGREDIENTS:
       return {
         ...state, ingredients: [...state.ingredients, ...action.payload]
       };
     case slActions.UPDATE_INGREDIENT:
-      let ingredients = [...state.ingredients];
+      const ingredients = [...state.ingredients];
       const ingredient = ingredients[state.indexUpdate];
       const newIngredient = {
         ...ingredient,
@@ -35,10 +35,10 @@ export function shoppingListReducer(state = initialState, action: slActions.SLAc
       ingredients[state.indexUpdate] = newIngredient;
 
       return {
-        ...state, ingredients:ingredients, indexUpdate:-1
+        ...state, ingredients, indexUpdate: -1
       };
     case slActions.DELETE_INGREDIENT:
-      let ingredientsD = [...state.ingredients];
+      const ingredientsD = [...state.ingredients];
 
       ingredientsD.splice(state.indexUpdate, 1);
 
@@ -48,7 +48,7 @@ export function shoppingListReducer(state = initialState, action: slActions.SLAc
     case slActions.EDIT_INGREDIENT:
       return {
         ...state, indexUpdate: action.payload
-      }
+      };
     default:
       return state;
   }

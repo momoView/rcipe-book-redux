@@ -4,11 +4,11 @@ import * as fromApp from '../../store/app.reducers';
 import * as recipesActions from './recipes.actions';
 
 export interface FeatureState extends fromApp.AppState {
-  recipes: State
+  recipes: State;
 }
 
 export interface State {
-  recipes: Recipe[]
+  recipes: Recipe[];
 }
 
 const initialState: State = {
@@ -37,7 +37,7 @@ const initialState: State = {
 };
 
 export function recipesReducer(state = initialState, action: recipesActions.RecipesActions) {
-  switch(action.type) {
+  switch (action.type) {
     case recipesActions.ADD_RECIPE:
       return {
         ...state, recipes: [...state.recipes, action.payload]
@@ -54,11 +54,11 @@ export function recipesReducer(state = initialState, action: recipesActions.Reci
       recipes[action.payload.index] = newRecipe;
 
       return {
-        ...state, recipes: recipes
+        ...state, recipes
       };
 
     case recipesActions.DELETE_RECIPE:
-      const recipesD=[...state.recipes];
+      const recipesD = [...state.recipes];
 
       recipesD.splice(action.payload, 1);
 
@@ -70,9 +70,9 @@ export function recipesReducer(state = initialState, action: recipesActions.Reci
       const sRecipes = [...action.payload];
 
       return {
-        ...state, recipes:sRecipes
+        ...state, recipes: sRecipes
       };
-      
+
     default:
       return state;
   }
