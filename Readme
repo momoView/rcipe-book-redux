@@ -1,0 +1,6 @@
+I used Firebase for authentication and as a back end. 
+I used also @ngrx's Redux directly from the start without developing services.
+
+In the start the user is disconnected, so you cannot interact with the different features of the application, you need first
+to register a user then login (register & login links in header (user password should be at least 6 characters)) then you
+will be able to use all the features of the application (Manage -> Save/Fetch data serve to save or fetch data from Firebase).
